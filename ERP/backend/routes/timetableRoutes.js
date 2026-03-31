@@ -1,67 +1,52 @@
-import { Schema, model } from "mongoose";
+import express from "express";
+import {protect} from "../middleware/middleware.js";
+import Student from "../models/student.js";
+import Timetable from "../models/timetable.js";
 
-const studentSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    collegeId: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    rollNo: {
-        type: String,
-        required: true
-    },
-    branch: {
-        type: String,
-        required: true,
-        enum: ["CSE", "IT", "DS", "ECE", "ME", "CE"]
-    },
-    section: {
-        type: String,
-        required: true
-    },
-    group: {
-        type: String, 
-        trim: true,
-        default: null
-    },
-    batch: {
-        startYear: {
-            type: Number,
-            required: true
-        },
-        endYear: {
-            type: Number,
-            required: true
+const router = express.Router();
+
+router.get("/test", (req, res) => {
+    res.send("Timetable route working");
+});
+
+// GET /api/timetable
+router.get("/", protect, async (req, res) => {
+    try {
+        //YOUR middleware gives full user object
+        const userId = req.user._id;
+
+        //Find student linked to this user
+        const student = await Student.findOne({ user: userId });
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
         }
-    },
-    semester: {
-        type: Number,
-        min: 1,
-        max: 8,
-        required: true
-    },
-    email: {
-        type: String,
-        unique: true,
-        sparse: true
-    },
-    phone: String,
-    address: String,
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-    },
-    status: {
-        type: String,
-        enum: ["active", "inactive"],
-        default: "active"
+
+        //Extract class info
+        const { branch, section, group } = student;
+
+        //Find timetable
+        const timetable = await Timetable.findOne({
+            branch,
+            section,
+            group
+        });
+
+        if (!timetable) {
+            return res.status(404).json({ message: "Timetable not found" });
+        }
+
+        // Sends responsse
+        res.json({
+            timeSlots: timetable.timeSlots,
+            timetable: timetable.timetable
+        });
+
+    } catch (err) {
+        console.log("timetableRoutes Catch try error part")
+        console.log("Timetable route error:", err);
+        res.status(500).json({ message: "Server error" });
     }
+});
 
-}, { timestamps: true });
-
-export default model("Student", studentSchema);
+export default router;
