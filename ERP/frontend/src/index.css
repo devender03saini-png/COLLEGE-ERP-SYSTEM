@@ -1,3 +1,72 @@
+/* Tailwind CSS directives: these load Tailwind's base reset, component layer, and utility classes. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global body styles define the screenshot-inspired gray shell and creamy content surface. */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 221, 116, 0.28), transparent 18%),
+    radial-gradient(circle at 18% 82%, rgba(244, 212, 129, 0.12), transparent 24%),
+    linear-gradient(180deg, #b7bec8 0%, #aeb5bf 100%);
+  color: #1b1712;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+/* The root element is stretched so every routed page can fill the screen height. */
+#root {
+  min-height: 100vh;
+}
+
+/* Shared utility class for creamy dashboard panels. */
+.erp-glass {
+  background: rgba(246, 240, 228, 0.92);
+  border: 1px solid rgba(255, 251, 241, 0.95);
+  box-shadow:
+    0 22px 48px rgba(33, 32, 29, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+}
+
+/* Shared utility class for dark charcoal pills and buttons used throughout the theme. */
+.erp-button {
+  background: linear-gradient(135deg, #353331 0%, #272523 100%);
+  color: #f6f0e4;
+  box-shadow: 0 10px 24px rgba(205, 168, 81, 0.18);
+}
+
+/* Shared utility class for pale cards that sit inside the creamy layout shell. */
+.erp-card {
+  background: linear-gradient(180deg, rgba(255, 252, 246, 0.98) 0%, rgba(248, 242, 231, 0.98) 100%);
+  border: 1px solid rgba(228, 214, 181, 0.9);
+  box-shadow:
+    0 12px 28px rgba(40, 37, 31, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* Shared utility class for tiny status pills and filters across the UI. */
+.erp-pill {
+  background: rgba(255, 250, 241, 0.92);
+  border: 1px solid rgba(226, 209, 171, 0.95);
+  color: #3b352d;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* Shared utility class for the gold highlight panels inspired by the reference screenshot. */
+.erp-highlight {
+  background:
+    radial-gradient(circle at top right, rgba(243, 205, 99, 0.24), transparent 42%),
+    linear-gradient(180deg, rgba(249, 241, 221, 0.96) 0%, rgba(241, 229, 201, 0.92) 100%);
+  border: 1px solid rgba(228, 204, 146, 0.95);
+}
+
+/* Shared utility class for the decorative soft highlight circles used in page shells. */
+.erp-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0.28;
+}

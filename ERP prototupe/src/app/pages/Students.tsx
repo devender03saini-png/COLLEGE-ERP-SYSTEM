@@ -1,8 +1,11 @@
+// GlassCard is the shared translucent container component used throughout the prototype.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state tracks search, filtering, and the selected student detail panel.
 import { useState } from 'react';
+// lucide-react supplies the icons used in the list and detail views.
 import { Search, UserPlus, Filter, Mail, Phone, MapPin, Calendar, BookOpen, Award } from 'lucide-react';
 
-// Mock student data
+// Mock student records used to demonstrate the students page.
 const studentsData = [
   {
     id: 'STU001',
@@ -85,8 +88,11 @@ const studentsData = [
 ];
 
 export function Students() {
+  // Stores the text entered into the search input.
   const [searchQuery, setSearchQuery] = useState('');
+  // Stores the selected class filter value.
   const [selectedClass, setSelectedClass] = useState('all');
+  // Stores the active student shown in the details panel.
   const [selectedStudent, setSelectedStudent] = useState<typeof studentsData[0] | null>(null);
 
   const filteredStudents = studentsData.filter(student => {
@@ -99,6 +105,7 @@ export function Students() {
   const classes = ['all', ...Array.from(new Set(studentsData.map(s => s.class)))];
 
   return (
+    // Main layout wrapper for the students route.
     <main className="flex-1 p-4 md:p-8 overflow-y-auto">
       <div className="mb-6">
         <h1 className="text-3xl font-semibold text-slate-800 mb-2">Students</h1>

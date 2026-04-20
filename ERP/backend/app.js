@@ -1,6 +1,7 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
-import cors from 'cors';
+import timetableRoutes from "./routes/timetableRoutes.js";
+import cors from "cors";
 
 const app = express();
 

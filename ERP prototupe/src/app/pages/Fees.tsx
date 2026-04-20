@@ -1,8 +1,11 @@
+// GlassCard provides the translucent container styling shared across the prototype.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state tracks the active search value and payment status filter.
 import { useState } from 'react';
+// lucide-react icons are used inside stat cards, controls, and fee rows.
 import { DollarSign, Calendar, Users, TrendingUp, TrendingDown, Plus, Search, Filter, Receipt } from 'lucide-react';
 
-// Mock fees data
+// Mock fee records used to preview the design before backend wiring.
 const feesData = [
   {
     id: 'FEE001',
@@ -58,7 +61,9 @@ const feeStats = [
 ];
 
 export function Fees() {
+  // Search text for filtering the records list.
   const [searchTerm, setSearchTerm] = useState('');
+  // Selected payment status filter.
   const [selectedStatus, setSelectedStatus] = useState('all');
 
   const statuses = ['all', 'paid', 'partial', 'pending'];
@@ -84,6 +89,7 @@ export function Fees() {
   const totalPending = feesData.reduce((sum, fee) => sum + fee.pendingAmount, 0);
 
   return (
+    // Main content wrapper for the fees route.
     <main className="flex-1 p-4 md:p-8 overflow-y-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>

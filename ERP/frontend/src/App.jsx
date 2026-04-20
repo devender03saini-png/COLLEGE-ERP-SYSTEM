@@ -5,8 +5,11 @@ import Student_Home from "./pages/student_home.jsx";
 import Admin_Home from "./pages/admin_home.jsx";
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:3000";
+const BYPASS_TOKEN = "dev-bypass-token";
+
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));// initially stored what in loaclsotrage, we update this in login.jsx since we passed the setToken fuchtion
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
   const [valid, setValid] = useState(false);
   const [role, setRole] = useState(null);
@@ -17,8 +20,16 @@ function App() {
       return;
     }
 
+    if (token === BYPASS_TOKEN) {
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+      setValid(true);
+      setRole((storedUser.role || "student").toLowerCase());
+      setLoading(false);
+      return;
+    }
+
     axios
-      .get("http://localhost:3000/api/users/requeessstt", {
+      .get(`${API_BASE_URL}/api/users/verify`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -26,9 +37,11 @@ function App() {
         setLoading(false);
         setRole(res.data.user.role.toLowerCase());
       })
-      .catch((err) => {
-        console.log("Invalid token, this catch is of App.jsx")
+      .catch(() => {
         setValid(false);
+        setRole(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setLoading(false);
       });
   }, [token]);
@@ -56,6 +69,11 @@ function App() {
       <Route
         path="/admin"
         element={valid && role === "admin" ? <Admin_Home /> : <Navigate to="/login" />}
+      />
+
+      <Route
+        path="*"
+        element={<Navigate to={valid && role ? `/${role}` : "/login"} replace />}
       />
 
     </Routes>

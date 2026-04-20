@@ -33,7 +33,7 @@ export const loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Login user consolelog")
+        console.log("Login user consolelog", error)
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -75,7 +75,7 @@ export const registerUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("REgister user consolelog")
-        res.status(500).json({ message: "Server error" });
+        console.log("REgister user consolelog", error)
+        res.status(500).json({ message: error.message || "Server error" });
     }
 };

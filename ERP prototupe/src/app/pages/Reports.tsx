@@ -1,8 +1,11 @@
+// GlassCard provides the frosted panel surface shared across the prototype.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state is used to track the selected report filters.
 import { useState } from 'react';
+// lucide-react icons are used for stat cards, action buttons, and report metadata.
 import { BarChart3, TrendingUp, Users, DollarSign, FileText, Download, Calendar, Filter } from 'lucide-react';
 
-// Mock reports data
+// Mock report statistics used to preview the analytics cards.
 const reportStats = [
   { title: 'Total Students', value: '1,245', change: '+5.2%', icon: Users, color: 'from-blue-500 to-blue-600' },
   { title: 'Average Attendance', value: '87%', change: '+2.1%', icon: TrendingUp, color: 'from-green-500 to-green-600' },
@@ -46,7 +49,9 @@ const recentReports = [
 ];
 
 export function Reports() {
+  // Stores the selected period filter for the reports list.
   const [selectedPeriod, setSelectedPeriod] = useState('all');
+  // Stores the selected report type filter.
   const [selectedType, setSelectedType] = useState('all');
 
   const periods = ['all', 'this-month', 'last-month', 'this-quarter', 'last-quarter'];
@@ -68,6 +73,7 @@ export function Reports() {
   };
 
   return (
+    // Main content wrapper for the reports page.
     <main className="flex-1 p-4 md:p-8 overflow-y-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>

@@ -1,8 +1,11 @@
+// GlassCard provides the shared frosted-card styling.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state powers the search and status filter controls.
 import { useState } from 'react';
+// lucide-react icons are used for page actions and exam metadata.
 import { FileText, Calendar, Clock, Users, Plus, Search, Filter, Eye } from 'lucide-react';
 
-// Mock exams data
+// Mock exam records used to demonstrate the UI.
 const examsData = [
   {
     id: 'EXM001',
@@ -55,7 +58,9 @@ const examsData = [
 ];
 
 export function Exams() {
+  // Search text entered by the user.
   const [searchTerm, setSearchTerm] = useState('');
+  // Active exam status filter.
   const [selectedStatus, setSelectedStatus] = useState('all');
 
   const statuses = ['all', 'upcoming', 'ongoing', 'completed'];
@@ -78,6 +83,7 @@ export function Exams() {
   };
 
   return (
+    // Main page wrapper for the exams route.
     <main className="flex-1 p-4 md:p-8 overflow-y-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>

@@ -8,7 +8,7 @@ router.post("/login", loginUser);
 
 router.post("/register", registerUser);
 
-router.get("/requeessstt", protect, (req, res) => {
+router.get("/verify", protect, (req, res) => {
     res.json({
         message: "Welcome to Dashboard",
         user: req.user

@@ -1,8 +1,11 @@
+// GlassCard gives each class card the translucent visual treatment.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state tracks the active search input and subject filter.
 import { useState } from 'react';
+// lucide-react icons are used for search, filter, and card visuals.
 import { Calendar, BookOpen, Users, Clock, Plus, Search, Filter } from 'lucide-react';
 
-// Mock classes data
+// Mock class records used to preview the design without backend data.
 const classesData = [
   {
     id: 'CLS001',
@@ -47,11 +50,15 @@ const classesData = [
 ];
 
 export function Classes() {
+  // Stores the text typed into the search field.
   const [searchTerm, setSearchTerm] = useState('');
+  // Stores the subject selected in the dropdown filter.
   const [selectedSubject, setSelectedSubject] = useState('all');
 
+  // Builds the subject filter list from unique subject names.
   const subjects = ['all', ...Array.from(new Set(classesData.map(cls => cls.subject)))];
 
+  // Narrows the visible cards to classes matching the search and selected subject.
   const filteredClasses = classesData.filter(cls => {
     const matchesSearch = cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          cls.teacher.toLowerCase().includes(searchTerm.toLowerCase());
@@ -60,6 +67,7 @@ export function Classes() {
   });
 
   return (
+    // Main content container for the classes page.
     <main className="flex-1 p-4 md:p-8 overflow-y-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>

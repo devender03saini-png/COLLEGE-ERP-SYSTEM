@@ -1,8 +1,11 @@
+// GlassCard provides the translucent panel style used across the prototype.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state is used for the selected date, class filter, and attendance records.
 import { useState } from 'react';
+// lucide-react icons are used in stat cards, action buttons, and the calendar panel.
 import { Calendar, Check, X, Users, Clock, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 
-// Mock attendance data
+// Mock attendance data used to render the page before backend integration.
 const studentsForAttendance = [
   { id: 'STU001', name: 'Chander Kant', rollNo: '15', class: 'Class X-A', status: 'present' as const },
   { id: 'STU002', name: 'Priya Sharma', rollNo: '22', class: 'Class X-A', status: 'present' as const },
@@ -22,28 +25,29 @@ const attendanceStats = [
 ];
 
 export function Attendance() {
+  // Tracks the date currently shown in the page header and mini calendar.
   const [selectedDate, setSelectedDate] = useState(new Date());
+  // Stores the editable attendance list shown in the center panel.
   const [attendanceList, setAttendanceList] = useState(studentsForAttendance);
+  // Stores the selected class filter value.
   const [selectedClass, setSelectedClass] = useState('all');
 
+  // Builds the class dropdown from the unique class names in the dataset.
   const classes = ['all', ...Array.from(new Set(studentsForAttendance.map(s => s.class)))];
 
+  // Filters the list shown in the table according to the chosen class.
   const filteredStudents = attendanceList.filter(
     student => selectedClass === 'all' || student.class === selectedClass
   );
 
-  const toggleAttendance = (id: string) => {
-    setAttendanceList(prev => prev.map(student => {
-      if (student.id === id) {
-        const statuses: Array<'present' | 'absent' | 'late'> = ['present', 'absent', 'late'];
-        const currentIndex = statuses.indexOf(student.status);
-        const nextIndex = (currentIndex + 1) % statuses.length;
-        return { ...student, status: statuses[nextIndex] };
-      }
-      return student;
-    }));
+  // Updates a student record to the requested attendance state.
+  const toggleAttendance = (id: string, nextStatus: 'present' | 'absent' | 'late') => {
+    setAttendanceList(prev => prev.map(student => (
+      student.id === id ? { ...student, status: nextStatus } : student
+    )));
   };
 
+  // Summary counts power the stat cards at the top of the page.
   const presentCount = filteredStudents.filter(s => s.status === 'present').length;
   const absentCount = filteredStudents.filter(s => s.status === 'absent').length;
   const lateCount = filteredStudents.filter(s => s.status === 'late').length;
@@ -57,7 +61,7 @@ export function Attendance() {
         <p className="text-slate-600">Mark and track student attendance</p>
       </div>
 
-      {/* Statistics Cards */}
+      {/* Statistics cards give a quick snapshot of the filtered attendance data. */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <GlassCard className="p-6">
           <div className="flex items-center justify-between">
@@ -108,8 +112,9 @@ export function Attendance() {
         </GlassCard>
       </div>
 
+      {/* Main layout: attendance marking on the left and summary tools on the right. */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Attendance Marking */}
+        {/* Attendance marking panel. */}
         <div className="lg:col-span-2">
           <GlassCard className="p-6">
             <div className="flex items-center justify-between mb-6">
@@ -157,7 +162,7 @@ export function Attendance() {
 
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => toggleAttendance(student.id)}
+                        onClick={() => toggleAttendance(student.id, 'present')}
                         className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                           student.status === 'present'
                             ? 'bg-green-500 text-white shadow-lg'
@@ -167,7 +172,7 @@ export function Attendance() {
                         <Check className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => toggleAttendance(student.id)}
+                        onClick={() => toggleAttendance(student.id, 'late')}
                         className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                           student.status === 'late'
                             ? 'bg-yellow-500 text-white shadow-lg'
@@ -177,7 +182,7 @@ export function Attendance() {
                         <Clock className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => toggleAttendance(student.id)}
+                        onClick={() => toggleAttendance(student.id, 'absent')}
                         className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                           student.status === 'absent'
                             ? 'bg-red-500 text-white shadow-lg'
@@ -200,7 +205,7 @@ export function Attendance() {
           </GlassCard>
         </div>
 
-        {/* Calendar & Statistics */}
+        {/* Calendar and monthly trend sidebar. */}
         <div className="lg:col-span-1 space-y-6">
           <GlassCard className="p-6">
             <h2 className="text-xl font-semibold text-slate-800 mb-4">Calendar</h2>

@@ -1,8 +1,11 @@
+// GlassCard provides the shared card appearance used for timetable sections.
 import { GlassCard } from '@/app/components/GlassCard';
+// React state stores the currently selected day filter.
 import { useState } from 'react';
+// lucide-react icons are used for the day header, metadata, and empty states.
 import { Calendar, Clock, MapPin, User, BookOpen, Sun, Moon } from 'lucide-react';
 
-// Timetable data extracted from the HTML
+// Timetable data extracted from the original HTML prototype.
 const timetableData = [
   {
     day: 'Monday',
@@ -198,8 +201,10 @@ const timetableData = [
 ];
 
 export function Timetable() {
+  // Stores the day currently selected in the filter pill row.
   const [selectedDay, setSelectedDay] = useState('all');
 
+  // Filters the timetable cards to a single day or keeps all days visible.
   const filteredTimetable = selectedDay === 'all'
     ? timetableData
     : timetableData.filter(day => day.day === selectedDay);
@@ -211,6 +216,7 @@ export function Timetable() {
   };
 
   return (
+    // Main content container for the timetable route.
     <main className="flex-1 p-4 md:p-8 overflow-y-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
